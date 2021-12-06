@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.atc.entity.AbonentsEntity" table="Абоненты" schema="dbo" catalog="ATCAbonents">
+        <id name="id">
+            <column name="ID" sql-type="int"/>
+        </id>
+        <property name="имя">
+            <column name="имя" sql-type="nchar(30)" length="30"/>
+        </property>
+        <property name="фамилия">
+            <column name="фамилия" sql-type="nchar(30)" length="30"/>
+        </property>
+        <property name="отчество">
+            <column name="отчество" sql-type="nchar(30)" length="30"/>
+        </property>
+        <property name="датарождения">
+            <column name="датарождения" sql-type="date"/>
+        </property>
+        <property name="пол">
+            <column name="пол" sql-type="tinyint"/>
+        </property>
+        <set name="телефоныsById" inverse="true">
+            <key>
+                <column name="IDАбонент"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.atc.entity.PhonesEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

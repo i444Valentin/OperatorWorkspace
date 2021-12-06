@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.atc.entity.PhonesEntity" table="Телефоны" schema="dbo" catalog="ATCAbonents">
+        <id name="номер">
+            <column name="номер" sql-type="numeric(6)" precision="6"/>
+        </id>
+        <property name="льгота">
+            <column name="льгота" sql-type="int" not-null="true"/>
+        </property>
+        <many-to-one name="абонентыByIdАбонент" class="com.atc.entity.AbonentsEntity">
+            <column name="IDАбонент"/>
+        </many-to-one>
+        <many-to-one name="типыТелефоновByIdТипТелефона" class="com.atc.entity.PhoneTypesEntity">
+            <column name="IDТип_телефона" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="тарифыByТариф" class="com.atc.entity.TariffsEntity">
+            <column name="тариф" not-null="true"/>
+        </many-to-one>
+        <one-to-one name="установкиByНомер" class="com.atc.entity.MountsEntity"/>
+        <set name="регистрацияsByНомер" inverse="true">
+            <key>
+                <column name="НомерТелефона"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.atc.entity.RegistrationEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

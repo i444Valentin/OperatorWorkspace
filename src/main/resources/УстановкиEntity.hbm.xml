@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.atc.entity.MountsEntity" table="Установки" schema="dbo" catalog="ATCAbonents">
+        <id name="номерТелефона">
+            <column name="НомерТелефона" sql-type="numeric(6)" precision="6"/>
+        </id>
+        <property name="датаУстановки">
+            <column name="ДатаУстановки" sql-type="date"/>
+        </property>
+        <property name="типУстановки">
+            <column name="ТипУстановки" sql-type="tinyint"/>
+        </property>
+        <one-to-one name="телефоныByНомерТелефона" class="com.atc.entity.PhonesEntity"/>
+    </class>
+</hibernate-mapping>
