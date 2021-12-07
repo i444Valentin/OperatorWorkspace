@@ -22,9 +22,9 @@ public class Start extends Application {
         stage.setScene(scene);
         stage.show();
 //        Main.startHBT(new String[]{"1", "2"});
-        AbonentDao abonentDao = new AbonentDao();
-        List<AbonentsEntity> abonents = abonentDao.findAll();
-        System.out.println(abonents);
+//        AbonentDao abonentDao = new AbonentDao();
+//        List<AbonentsEntity> abonents = abonentDao.findAll();
+//        System.out.println(abonents);
         System.out.println("Ready");
     }
 
