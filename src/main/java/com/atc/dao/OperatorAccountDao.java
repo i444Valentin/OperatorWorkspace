@@ -18,7 +18,9 @@ public class OperatorAccountDao {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
 
 
-        OperatorAccountsEntity result = (OperatorAccountsEntity) session.createQuery("from OperatorAccountsEntity o where o.login= :login").setParameter("login", login).uniqueResult();
+        OperatorAccountsEntity result = (OperatorAccountsEntity) session
+                .createQuery("from OperatorAccountsEntity o where o.login= :login")
+                .setParameter("login", login).uniqueResult();
         return result;
     }
 
