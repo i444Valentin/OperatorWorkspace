@@ -12,7 +12,8 @@ module com.atc {
     requires org.hibernate.orm.core;
     requires java.naming;
     requires org.hibernate.commons.annotations;
-    opens com.atc to javafx.fxml;
+    opens com.atc.tableviews to javafx.base;
+    opens com.atc to javafx.fxml, javafx.base;
     opens com.atc.entity to org.hibernate.orm.core;
     exports com.atc;
     opens com.atc.dao to org.hibernate.commons.annotations,org.hibernate.orm.core;
