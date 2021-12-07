@@ -10,6 +10,7 @@
         <property name="connection.username">sa</property>
         <property name="connection.password">test</property>
         <property name="show_sql">true</property>
+
         <mapping class="com.atc.entity.AbonentsEntity"/>
         <mapping resource="АбонентыEntity.hbm.xml"/>
         <mapping resource="ОператорыEntity.hbm.xml"/>
