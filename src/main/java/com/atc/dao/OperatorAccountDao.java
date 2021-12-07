@@ -6,6 +6,7 @@ import com.atc.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.Query;
 import java.util.List;
 
 public class OperatorAccountDao {
@@ -14,7 +15,11 @@ public class OperatorAccountDao {
     }
 
     public OperatorAccountsEntity findByLogin(String login) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(OperatorAccountsEntity.class, login);
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+
+
+        OperatorAccountsEntity result = (OperatorAccountsEntity) session.createQuery("from OperatorAccountsEntity o where o.login= :login").setParameter("login", login).uniqueResult();
+        return result;
     }
 
 //    public void save(OperatorAccountsEntity opAccount) {
@@ -42,8 +47,8 @@ public class OperatorAccountDao {
 //    }
 
     public List<OperatorAccountsEntity> findAll() {
-        return (List<OperatorAccountsEntity>)  HibernateSessionFactoryUtil
+        return (List<OperatorAccountsEntity>) HibernateSessionFactoryUtil
                 .getSessionFactory().openSession();
     }
 
-    }
+}
