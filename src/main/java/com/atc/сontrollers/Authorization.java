@@ -2,14 +2,11 @@ package com.atc.сontrollers;
 
 import com.atc.dao.OperatorAccountDao;
 import com.atc.entity.OperatorAccountsEntity;
+import com.atc.utils.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
-import java.util.List;
 
 public class Authorization {
 

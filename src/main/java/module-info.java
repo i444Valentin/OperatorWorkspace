@@ -18,6 +18,7 @@ module com.atc {
     exports com.atc;
     opens com.atc.dao to org.hibernate.commons.annotations,org.hibernate.orm.core;
     opens com.atc.сontrollers to javafx.fxml, javafx.controls, javafx.base,javafx.graphics;
+    opens com.atc.utils to javafx.base, javafx.controls, javafx.fxml, javafx.graphics;
 
 
 }
