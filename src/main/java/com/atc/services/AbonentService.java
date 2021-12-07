@@ -29,6 +29,10 @@ public class AbonentService {
 
     }
 
+    public List<AbonentsEntity> findByInitials(String firstname,String lastname, String patronymic){
+        return abonentDao.findByInicials(firstname,lastname,patronymic);
+    }
+
     public List<AbonentsEntity> findAllAbonents() {
         return abonentDao.findAll();
     }

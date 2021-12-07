@@ -103,26 +103,13 @@ public class AbonentsEntity {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "AbonentsEntity{" +
-                "id=" + id +
-                ", имя='" + имя + '\'' +
-                ", фамилия='" + фамилия + '\'' +
-                ", отчество='" + отчество + '\'' +
-                ", датарождения=" + датарождения +
-                ", пол=" + пол +
-                ", телефоныsById=" + телефоныsById +
-                '}';
-    }
-
     @OneToMany(mappedBy = "абонентыByIdАбонент")
     public Collection<PhonesEntity> getТелефоныsById() {
         return телефоныsById;
     }
 
-    public void setТелефоныsById(Collection<PhonesEntity> телефоныsById) {
-        this.телефоныsById = телефоныsById;
+    public void setТелефоныsById(Collection<PhonesEntity> phonesById) {
+        this.телефоныsById = phonesById;
     }
 
 }
