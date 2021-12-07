@@ -1,11 +1,23 @@
 package com.atc.сontrollers;
 
+import com.atc.entity.AbonentsEntity;
+import com.atc.services.AbonentService;
+import com.atc.tableviews.TableViewAbonent;
+import com.atc.tableviews.TableViewPhone;
+import com.atc.tableviews.TableViewRegistration;
+import com.atc.tableviews.TableViewTariff;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+
+import java.util.Date;
+import java.util.List;
 
 public class OperatorWorkspace {
 
@@ -17,22 +29,24 @@ public class OperatorWorkspace {
     private Tab AbonentsTab;
 
     @FXML
-    private TableView<?> AbonentsTableView;
+    private TableView<TableViewAbonent> AbonentsTableView;
 
     @FXML
-    private TableColumn<?, ?> abFiNameColumn;
+    private TableColumn<TableViewAbonent, String> abFNameColumn;
 
     @FXML
-    private TableColumn<?, ?> abLNameColumn;
+    private TableColumn<TableViewAbonent, String> abLNameColumn;
 
     @FXML
-    private TableColumn<?, ?> abPatronymicColumn;
+    private TableColumn<TableViewAbonent, String> abPatronymicColumn;
 
     @FXML
-    private TableColumn<?, ?> abBirthDateColumn;
+    private TableColumn<TableViewAbonent, Date> abBirthDateColumn;
 
     @FXML
-    private TableColumn<?, ?> abGenderColumn;
+    private TableColumn<TableViewAbonent, String> abGenderColumn;
+
+    ObservableList<TableViewAbonent> abonentsListTable;
     //Abonents Tab Section END
 
     //PhonesTab Section BEGIN
@@ -40,31 +54,31 @@ public class OperatorWorkspace {
     private Tab PhonesTab;
 
     @FXML
-    private TableView<?> PhonesTableView;
+    private TableView<TableViewPhone> PhonesTableView;
 
     @FXML
-    private TableColumn<?, ?> phoneNumberColumn;
+    private TableColumn<TableViewPhone, ?> phoneNumberColumn;
 
     @FXML
-    private TableColumn<?, ?> phoneAbonentColumn;
+    private TableColumn<TableViewPhone, ?> phoneAbonentColumn;
 
     @FXML
-    private TableColumn<?, ?> phoneTypeColumn;
+    private TableColumn<TableViewPhone, ?> phoneTypeColumn;
 
     @FXML
-    private TableColumn<?, ?> phoneTariffColumn;
+    private TableColumn<TableViewPhone, ?> phoneTariffColumn;
 
     @FXML
-    private TableColumn<?, ?> phoneDiscountColumn;
+    private TableColumn<TableViewPhone, ?> phoneDiscountColumn;
 
     @FXML
-    private TableColumn<?, ?> idAbonentColumnH;
+    private TableColumn<TableViewPhone, ?> idAbonentColumnH;
 
     @FXML
-    private TableColumn<?, ?> phoneMountColumn;
+    private TableColumn<TableViewPhone, ?> phoneMountColumn;
 
     @FXML
-    private TableColumn<?, ?> phoneMountTypeColumn;
+    private TableColumn<TableViewPhone, ?> phoneMountTypeColumn;
     //PhonesTab Section END
 
     //TariffsTab Section BEGIN
@@ -72,16 +86,16 @@ public class OperatorWorkspace {
     private Tab TariffsTab;
 
     @FXML
-    private TableView<?> TariffsTableView;
+    private TableView<TableViewTariff> TariffsTableView;
 
     @FXML
-    private TableColumn<?, ?> tariffNameColumn;
+    private TableColumn<TableViewTariff, ?> tariffNameColumn;
 
     @FXML
-    private TableColumn<?, ?> tariffPriceColumn;
+    private TableColumn<TableViewTariff, ?> tariffPriceColumn;
 
     @FXML
-    private TableColumn<?, ?> tariffMinutesColumn;
+    private TableColumn<TableViewTariff, ?> tariffMinutesColumn;
     //Tariffs Tab Section END
 
     //RegPhonesTab Section BEGIN
@@ -89,19 +103,19 @@ public class OperatorWorkspace {
     private Tab RegPhonesTab;
 
     @FXML
-    private TableView<?> RegPhonesTableView;
+    private TableView<TableViewRegistration> RegPhonesTableView;
 
     @FXML
-    private TableColumn<?, ?> regOperatorColumn;
+    private TableColumn<TableViewRegistration, ?> regOperatorColumn;
 
     @FXML
-    private TableColumn<?, ?> regPhoneNumberColumn;
+    private TableColumn<TableViewRegistration, ?> regPhoneNumberColumn;
 
     @FXML
-    private TableColumn<?, ?> regDateRegColumn;
+    private TableColumn<TableViewRegistration, ?> regDateRegColumn;
 
     @FXML
-    private TableColumn<?, ?> regOperatorIDColumnH;
+    private TableColumn<TableViewRegistration, ?> regOperatorIDColumnH; // H is hidden column
     //RegPhonesTab Section END
 
     @FXML
@@ -115,6 +129,15 @@ public class OperatorWorkspace {
 
     @FXML
     private Label currentOperatorLabel;
+
+    @FXML
+    void initialize(){
+        initializeAbonentsTableView();
+        getAbonents();
+    }
+
+
+
 
     @FXML
     void buttonClickCancelSearch(MouseEvent event) {
@@ -157,5 +180,39 @@ public class OperatorWorkspace {
 
     }
 
+    private void initializeAbonentsTableView() {
+        abFNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        abLNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        abPatronymicColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
+        abBirthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+        abGenderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+    }
+
+    private void getAbonents() {
+        AbonentService abonentService = new AbonentService();
+        List<AbonentsEntity> abonentsList = abonentService.findAllAbonents();
+        abonentsListTable = FXCollections.observableArrayList();
+        for (AbonentsEntity abonentsEntity : abonentsList){
+
+            String gender;
+            if (abonentsEntity.isПол()){
+                gender="мужской";
+            }else{
+                gender = "женский";
+            }
+
+            String date;
+            date = abonentsEntity.getДатарождения().toString();
+            TableViewAbonent tableViewAbonent = new TableViewAbonent(
+                    abonentsEntity.getИмя(),
+                    abonentsEntity.getФамилия(),
+                    abonentsEntity.getОтчество(),
+                    date,
+                    gender);
+            abonentsListTable.add(tableViewAbonent);
+        }
+        AbonentsTableView.setItems(abonentsListTable);
+
+    }
 }
 

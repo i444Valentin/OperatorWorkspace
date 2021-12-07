@@ -26,8 +26,8 @@
                      <children>
                         <TableView fx:id="AbonentsTableView" layoutX="-1.0" prefHeight="250.0" prefWidth="583.0" AnchorPane.bottomAnchor="-14.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                              <TableColumn editable="false" prefWidth="30.0" sortable="false" />
-                            <TableColumn fx:id="abFiNameColumn" prefWidth="120.0" text="Имя" />
+                              <TableColumn editable="true" prefWidth="30.0" sortable="false" />
+                            <TableColumn fx:id="abFNameColumn" prefWidth="120.0" text="Имя" />
                             <TableColumn fx:id="abLNameColumn" prefWidth="75.0" text="Фамилия" />
                               <TableColumn fx:id="abPatronymicColumn" prefWidth="75.0" text="Отчество" />
                               <TableColumn fx:id="abBirthDateColumn" prefWidth="75.0" text="Дата рождения" />
