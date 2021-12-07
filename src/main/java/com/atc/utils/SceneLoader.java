@@ -1,4 +1,4 @@
-package com.atc.сontrollers;
+package com.atc.utils;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
