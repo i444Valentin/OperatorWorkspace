@@ -42,6 +42,6 @@ public class AbonentDao{
     public List<AbonentsEntity> findAll() {
         return (List<AbonentsEntity>)  HibernateSessionFactoryUtil
                 .getSessionFactory().openSession()
-                .createQuery("From AbonentsEntity").list();
+                .createQuery("FROM AbonentsEntity").list();
     }
 }
