@@ -20,6 +20,13 @@ public class Authorization {
     private TextField passTxtFld;
 
     @FXML
+    void initialize(){
+        boolean authNoPass = true;
+        if (authNoPass){
+            SceneLoader.load("/scenes/operator_workspace.fxml",false,true);
+        }
+    }
+    @FXML
     void onHelloButtonClick(ActionEvent event) {
         String login = loginTxtFld.getText();
         String pass = passTxtFld.getText();
