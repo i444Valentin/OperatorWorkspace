@@ -10,6 +10,9 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
+/**
+ * Реализация dao для таблицы Абоненты
+ */
 public class AbonentDao{
 
     public AbonentsEntity findById(int id) {
@@ -21,10 +24,10 @@ public class AbonentDao{
 
         @SuppressWarnings("unchecked")
         List<AbonentsEntity> result = (List<AbonentsEntity>) session
-                .createQuery("from AbonentsEntity o where o.имя LIKE ?0 and o.фамилия like ?1 and o.отчество like ?2")
-                .setParameter(0, "%"+firstName+"%")
-                .setParameter(1,"%"+lastName+"%")
-                .setParameter(2,"%"+patronymic+"%")
+                .createQuery("from AbonentsEntity o where o.имя LIKE ?1 and o.фамилия like ?2 and o.отчество like ?3")
+                .setParameter(1, "%"+firstName+"%")
+                .setParameter(2,"%"+lastName+"%")
+                .setParameter(3,"%"+patronymic+"%")
                 .list();
         return result;
     }
