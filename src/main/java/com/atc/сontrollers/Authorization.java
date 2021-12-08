@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class Authorization {
+public class Authorization extends OperatorWorkspace {
 
     @FXML
     private Label welcomeText;
@@ -23,7 +23,8 @@ public class Authorization {
     void initialize(){
         boolean authNoPass = true;
         if (authNoPass){
-            SceneLoader.load("/scenes/operator_workspace.fxml",false,true);
+            SceneLoader.load("/scenes/operator_workspace.fxml",false,true,"База данных АТС");
+            OperatorWorkspace.authorizationScene=this.loginTxtFld.getScene();
         }
     }
     @FXML
@@ -36,7 +37,7 @@ public class Authorization {
         String dbPass = operator.getPassword();
         if (dbLogin.equals(login) || dbPass.equals(pass)){
             System.out.println("Authorization success on user " + dbLogin);
-            SceneLoader.load("/scenes/operator_workspace.fxml",false,true);
+            SceneLoader.load("/scenes/operator_workspace.fxml",false,true,"База данных АТС");
             loginTxtFld.getScene().getWindow().hide();
         }else System.out.println("Authorization failed on user " + dbLogin);
 
