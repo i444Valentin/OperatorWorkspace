@@ -1,25 +1,34 @@
 package com.atc.сontrollers;
 
 import com.atc.entity.AbonentsEntity;
+import com.atc.exchange.Exchanger;
+import com.atc.mapping.AbonentsTable;
 import com.atc.services.AbonentService;
-import com.atc.tableviews.TableViewAbonent;
-import com.atc.tableviews.TableViewPhone;
-import com.atc.tableviews.TableViewRegistration;
-import com.atc.tableviews.TableViewTariff;
+import com.atc.tableviews.*;
+import com.atc.exporting.ExportCSVAbonents;
+import com.atc.utils.SceneLoader;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-import java.util.Date;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
-public class OperatorWorkspace {
+public class OperatorWorkspace extends Exchanger {
+
+    protected static Scene authorizationScene;
 
     @FXML
     private TabPane operatorWorkspaceTabs;
@@ -41,7 +50,7 @@ public class OperatorWorkspace {
     private TableColumn<TableViewAbonent, String> abPatronymicColumn;
 
     @FXML
-    private TableColumn<TableViewAbonent, Date> abBirthDateColumn;
+    private TableColumn<TableViewAbonent, String> abBirthDateColumn;
 
     @FXML
     private TableColumn<TableViewAbonent, String> abGenderColumn;
@@ -57,10 +66,10 @@ public class OperatorWorkspace {
     private TableView<TableViewPhone> PhonesTableView;
 
     @FXML
-    private TableColumn<TableViewPhone, ?> phoneNumberColumn;
+    private TableColumn<TableViewPhone, Integer> phoneNumberColumn;
 
     @FXML
-    private TableColumn<TableViewPhone, ?> phoneAbonentColumn;
+    private TableColumn<TableViewPhone, String> phoneAbonentColumn;
 
     @FXML
     private TableColumn<TableViewPhone, ?> phoneTypeColumn;
@@ -133,10 +142,14 @@ public class OperatorWorkspace {
     @FXML
     void initialize(){
         initializeAbonentsTableView();
+        setEditableAbonentsTableView();
         getAbonents();
+        putInTableAbonents(AbonentsTableView,abonentsListTable);
     }
 
-
+    private void putInTableAbonents(TableView<TableViewAbonent> tableView, ObservableList<TableViewAbonent> observableList) {
+        tableView.setItems(observableList);
+    }
 
 
     @FXML
@@ -146,21 +159,55 @@ public class OperatorWorkspace {
 
     @FXML
     void buttonClickDataExport(ActionEvent event) {
+        Exchanger.data = abonentsListTable;
+        SceneLoader.load("/scenes/export_data.fxml",true,false,"Экспорт данных");
+
 
     }
 
     @FXML
     void buttonClickDataImport(ActionEvent event) {
+        Path path = Paths.get("C:/Users/Walentin/Desktop/writtenBean.csv");
+        try {
+            ExportCSVAbonents exportCSV = new ExportCSVAbonents(path,null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvRequiredFieldEmptyException e) {
+            e.printStackTrace();
+        } catch (CsvDataTypeMismatchException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @FXML
     void buttonClickDbSave(ActionEvent event) {
+        AbonentsTableView.sort();
+        String selectedTabName = operatorWorkspaceTabs.getSelectionModel().getSelectedItem().getId();
+        switch(selectedTabName){
+            case "AbonentsTab":
+                System.out.println("Save table Abonents");
+                break;
+            case "PhonesTab":
+                System.out.println("Save table Phones");
+                break;
+            case "TariffsTab":
+                System.out.println("Save table Tariffs");
+            case "RegPhonesTab":
+                AlertMessage.showAlert(Alert.AlertType.WARNING,
+                        "Таблица не редактируется",
+                        "Ошибка сохранения",
+                        "Вы не можете сохранить эту таблицу, так как она защищена от изменений.");
+            default:
+                System.out.println("Target tab not defied");
+        }
 
     }
 
     @FXML
     void buttonClickDbUpdate(ActionEvent event) {
+        AbonentsTableView.sort();
+        System.out.println(abonentsListTable);
         System.out.println(operatorWorkspaceTabs.getSelectionModel().getSelectedItem().getId());
 
     }
@@ -177,6 +224,8 @@ public class OperatorWorkspace {
 
     @FXML
     void logout(ActionEvent event) {
+        searchTextTxtFld.getScene().getWindow().hide();
+        SceneLoader.load("/scenes/start.fxml",false,false,"Авторизация оператора");
 
     }
 
@@ -186,33 +235,65 @@ public class OperatorWorkspace {
         abPatronymicColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
         abBirthDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
         abGenderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+
+        AbonentsTableView.setRowFactory(param -> {
+            TableRow<TableViewAbonent> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if ((event.getClickCount() == 1)) {
+                    //create a new Item and initialize it ...
+                    if (!abonentsListTable.get(abonentsListTable.size() - 1).isNullFields()) {
+                        AbonentsTableView.getItems().add(new TableViewAbonent());
+                    }
+                }
+            });
+            abFNameColumn.setOnEditCommit(event -> {
+            });
+
+            return row;
+        });
     }
 
+    /**
+     * Возвращает данные абонентов из базы данных
+     */
     private void getAbonents() {
         AbonentService abonentService = new AbonentService();
         List<AbonentsEntity> abonentsList = abonentService.findAllAbonents();
         abonentsListTable = FXCollections.observableArrayList();
-        for (AbonentsEntity abonentsEntity : abonentsList){
+        AbonentsTable abonentsTable = new AbonentsTable(abonentsList,abonentsListTable);
+        abonentsListTable = (ObservableList<TableViewAbonent>) abonentsTable.map();
+    }
 
-            String gender;
-            if (abonentsEntity.isПол()){
-                gender="мужской";
-            }else{
-                gender = "женский";
-            }
+    private void setEditableAbonentsTableView() {
+        abFNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-            String date;
-            date = abonentsEntity.getДатарождения().toString();
-            TableViewAbonent tableViewAbonent = new TableViewAbonent(
-                    abonentsEntity.getИмя(),
-                    abonentsEntity.getФамилия(),
-                    abonentsEntity.getОтчество(),
-                    date,
-                    gender);
-            abonentsListTable.add(tableViewAbonent);
-        }
-        AbonentsTableView.setItems(abonentsListTable);
+        abFNameColumn.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setFirstName(e.getNewValue());
+        });
 
+        abLNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        abLNameColumn.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setLastName(e.getNewValue());
+        });
+
+        abPatronymicColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        abPatronymicColumn.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setPatronymic(e.getNewValue());
+        });
+
+        abBirthDateColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        abBirthDateColumn.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setBirthDate(e.getNewValue());
+        });
+
+        abGenderColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        abGenderColumn.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setGender(e.getNewValue());
+        });
     }
 }
 
