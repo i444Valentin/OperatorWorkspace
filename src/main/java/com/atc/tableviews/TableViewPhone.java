@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 
 public class TableViewPhone {
-    private Integer number;
+    private Long number;
     private String abonent;
     private String phoneType;
     private String tariff;
@@ -13,7 +13,7 @@ public class TableViewPhone {
     private String mount;
     private String mountType;
 
-    public TableViewPhone(Integer number, String abonent, String phoneType, String tariff, Integer discount, Integer idAbonentH, String mount, String mountType) {
+    public TableViewPhone(Long number, String abonent, String phoneType, String tariff, Integer discount, Integer idAbonentH, String mount, String mountType) {
         this.number = number;
         this.abonent = abonent;
         this.phoneType = phoneType;
@@ -27,11 +27,11 @@ public class TableViewPhone {
     public TableViewPhone() {
     }
 
-    public Integer getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 
@@ -89,5 +89,11 @@ public class TableViewPhone {
 
     public void setMountType(String mountType) {
         this.mountType = mountType;
+    }
+
+    public boolean isNullFields() {
+        return number == null && abonent == null
+                && phoneType == null && tariff == null
+                && discount == null && mount == null && mountType == null;
     }
 }
