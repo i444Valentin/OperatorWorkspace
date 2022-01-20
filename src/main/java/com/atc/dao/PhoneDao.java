@@ -9,8 +9,8 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class PhoneDao {
-    public AbonentsEntity findById(int number) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(AbonentsEntity.class, number);
+    public PhonesEntity findById(int number) {
+        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(PhonesEntity.class, number);
     }
 
     public void save(PhonesEntity phone) {

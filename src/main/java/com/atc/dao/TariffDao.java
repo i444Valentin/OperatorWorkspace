@@ -39,6 +39,6 @@ public class TariffDao {
     public List<TariffsEntity> findAll() {
         return (List<TariffsEntity>)  HibernateSessionFactoryUtil
                 .getSessionFactory().openSession()
-                .createQuery("FROM PhonesEntity ").list();
+                .createQuery("FROM TariffsEntity ").list();
     }
 }

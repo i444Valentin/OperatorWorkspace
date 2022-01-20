@@ -39,6 +39,6 @@ public class RegistrationDao {
     public List<RegistrationEntity> findAll() {
         return (List<RegistrationEntity>)  HibernateSessionFactoryUtil
                 .getSessionFactory().openSession()
-                .createQuery("FROM PhonesEntity ").list();
+                .createQuery("FROM RegistrationEntity ").list();
     }
 }
