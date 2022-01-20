@@ -1,16 +1,27 @@
 package com.atc.exchange;
 
+import java.util.List;
+
 public class Exchanger {
-    protected static Object data;
+    protected static List<Object> exportData;
+    protected static List<Object> importData;
 
     public Exchanger() {
     }
 
-    public static Object getData() {
-        return data;
+    protected static Object getExportData() {
+        return exportData;
     }
 
-    public static void setData(Object data) {
-        Exchanger.data = data;
+    protected static void setExportData(List<Object> exportData) {
+        Exchanger.exportData = exportData;
+    }
+
+    protected static List<Object> getImportData() {
+        return importData;
+    }
+
+    protected static void setImportData(List<Object> importData) {
+        Exchanger.importData = importData;
     }
 }
