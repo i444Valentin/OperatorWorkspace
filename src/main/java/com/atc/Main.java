@@ -3,6 +3,7 @@ package com.atc;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -16,6 +17,7 @@ public class Main extends Application {
         stage.setMaximized(false);
         stage.setResizable(false);
         stage.setScene(scene);
+        stage.getIcons().add(new Image(String.valueOf(Main.class.getResource("/scenes/pictures/icon.png"))));
         stage.show();
         System.out.println("Ready");
     }
