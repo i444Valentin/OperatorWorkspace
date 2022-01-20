@@ -5,11 +5,11 @@ import com.atc.tableviews.TableViewAbonent;
 
 import java.util.List;
 
-public class AbonentsTable {
+public class AbonentsMapper extends AbstractMapper {
     private List<AbonentsEntity> entityList;
     private List list;
 
-    public AbonentsTable(List<AbonentsEntity> entityList, List list) {
+    public AbonentsMapper(List<AbonentsEntity> entityList, List list) {
         this.entityList =entityList;
         this.list = list;
     }
