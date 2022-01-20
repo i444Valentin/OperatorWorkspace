@@ -1,8 +1,8 @@
 package com.atc.сontrollers;
 
 import com.atc.exchange.Exchanger;
-import com.atc.tableviews.TableViewAbonent;
 import com.atc.exporting.ExportCSVAbonents;
+import com.atc.tableviews.TableViewAbonent;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import javafx.collections.ObservableList;
@@ -36,13 +36,19 @@ public class ControllerExportData extends Exchanger{
     @FXML
     void buttonClickExport(ActionEvent event) {
         Path path = Paths.get(pathTxtFld.getText());
-        ObservableList<TableViewAbonent> tableViewAbonents = (ObservableList<TableViewAbonent>) Exchanger.data;
+        Object o = Exchanger.exportData.get(0);
+        ObservableList<TableViewAbonent> tableViewAbonents = (ObservableList<TableViewAbonent>) o;
         RadioButton selected = (RadioButton) tables.getSelectedToggle();
         String value = selected.getText();
 
         try{
             ExportCSVAbonents exportCSV = new ExportCSVAbonents(path,tableViewAbonents);
             exportCSV.export();
+            AlertMessage.showAlert(Alert.AlertType.INFORMATION,
+                    "Экспорт завершен.",
+                    "Экспорт",
+                    "");
+
 
         } catch (CsvRequiredFieldEmptyException e) {
             AlertMessage.showAlert(Alert.AlertType.ERROR,"Не удалось сохранить csv-файл","Ошибка сохранения","");
@@ -71,8 +77,6 @@ public class ControllerExportData extends Exchanger{
             if (fileSelected !=null){
                 pathTxtFld.setText(fileSelected.getPath());
             }
-
-
     }
 
 }
