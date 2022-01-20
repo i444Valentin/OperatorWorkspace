@@ -6,13 +6,13 @@ module com.atc {
     requires validatorfx;
     requires org.kordamp.bootstrapfx.core;
     requires javafx.graphics;
-    requires java.persistence;
     requires java.sql;
     requires org.hibernate.orm.core;
     requires java.naming;
     requires org.hibernate.commons.annotations;
     requires com.opencsv;
     requires org.apache.commons.lang3;
+    requires java.persistence;
     opens com.atc.tableviews to javafx.base;
     opens com.atc.entity to org.hibernate.orm.core;
     opens com.atc.dao to org.hibernate.commons.annotations, org.hibernate.orm.core;
@@ -21,12 +21,10 @@ module com.atc {
     opens com.atc to com.opencsv, java.base, javafx.base, javafx.controls, javafx.fxml, javafx.graphics;
     opens com.atc.csvbeans to com.opencsv, java.base, javafx.base, javafx.controls, javafx.fxml, javafx.graphics;
     opens com.atc.exporting to com.opencsv, java.base, javafx.base, javafx.controls, javafx.fxml, javafx.graphics;
-    exports com.atc;
+    opens com.atc.exchange to javafx.base;
     exports com.atc.utils;
     exports com.atc.сontrollers;
     exports com.atc.csvbeans;
     exports com.atc.tableviews;
     exports com.atc.exporting;
-
-
 }
