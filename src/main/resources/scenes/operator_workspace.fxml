@@ -149,6 +149,7 @@
       </ImageView>
       <Button layoutX="517.0" layoutY="8.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="65.0" text="Выход" AnchorPane.rightAnchor="1.0" />
       <Label layoutX="8.0" layoutY="13.0" text="Текущий оператор:" />
-      <Label fx:id="currentOperatorLabel" layoutX="133.0" layoutY="10.0" prefHeight="24.0" prefWidth="134.0" text="operator" />
+      <Label fx:id="currentOperatorLabel" layoutX="133.0" layoutY="10.0" prefHeight="24.0" prefWidth="134.0" text="petr_app" />
+      <Label fx:id="notFoundSearch" layoutX="239.0" layoutY="198.0" prefHeight="17.0" prefWidth="107.0" style="-fx-background-color: white;" text="Ничего не найдено" visible="false" AnchorPane.bottomAnchor="185.0" AnchorPane.rightAnchor="237.0" AnchorPane.topAnchor="198.0" />
    </children>
 </AnchorPane>
