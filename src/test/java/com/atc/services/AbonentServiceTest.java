@@ -11,7 +11,7 @@ class AbonentServiceTest {
     @Test
     void tryFindAbonents(){
         AbonentService abonentService = new AbonentService();
-        List<AbonentsEntity> testList = abonentService.findByInitials("4","4","4");
+        List<AbonentsEntity> testList = abonentService.findByInitials("Анастасия"," "," ");
         for(AbonentsEntity test : testList){
             System.out.println(test.getId());
             System.out.println(test.getИмя());
@@ -25,6 +25,24 @@ class AbonentServiceTest {
         Integer actualCount = testList.size();
         assertNotEquals(minCount,actualCount);
 //        System.err.println("Elements in database not found. Try change search criteria or check query to database.");
+    }
+    @Test
+    void getAbonents(){
+        AbonentService abonentService = new AbonentService();
+        List<AbonentsEntity> testList = abonentService.findAllAbonents();
+        for(AbonentsEntity test : testList){
+            System.out.println(test.getId());
+            System.out.println(test.getИмя());
+            System.out.println(test.getФамилия());
+            System.out.println(test.getОтчество());
+            System.out.println(test.getДатарождения());
+            System.out.println(test.isПол());
+            System.out.println("_________________________________________");
+        }
+
+        Integer minCount=0;
+        Integer actualCount = testList.size();
+        assertNotEquals(minCount,actualCount);
     }
 
 }
