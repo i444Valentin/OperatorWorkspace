@@ -7,7 +7,7 @@
         <property name="connection.url">jdbc:sqlserver://localhost\MSSQLSERVER:1433;database=ATCAbonents</property>
         <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
         <property name="dialect">org.hibernate.dialect.SQLServer2012Dialect</property>
-        <property name="connection.username">sa</property>
+        <property name="connection.username">petr_ap</property>
         <property name="connection.password">test</property>
         <property name="show_sql">true</property>
 
